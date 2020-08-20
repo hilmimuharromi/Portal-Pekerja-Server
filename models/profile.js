@@ -9,6 +9,9 @@ const profileSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
+    imageUrl: {
+        type: String
+    },
     namaLengkap: {
         type: String,
     },
@@ -25,11 +28,9 @@ const profileSchema = new mongoose.Schema({
         type: String
     },
     pendidikan: [{
-        namaInstansi: String,
-        tahunMasuk: String,
-        tahunLulus: String,
-        jurusan: String,
-        gelar: String
+        type: ObjectId,
+        ref: 'Pendidikan',
+        unique: true
     }],
     pengalaman: [{
         type: ObjectId,
@@ -37,11 +38,9 @@ const profileSchema = new mongoose.Schema({
         unique: true
     }],
     karya: [{
-        judul: String,
-        imageUrl: [String],
-        videoUrl: String,
-        detail: String,
-        tanggal: String
+        type: ObjectId,
+        ref: 'Karya',
+        unique: true
     }]
 }, {
     collection: 'Profile'

@@ -58,7 +58,7 @@ async function getByUsername(req, res, next) {
         } = req.params
         const result = await Profile.findOne({
             username
-        }).populate('pengalaman').exec()
+        }).populate('karya').populate('pengalaman').populate('pendidikan').exec()
         if (result) {
             res.status(200).json(result)
         }

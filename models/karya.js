@@ -6,7 +6,8 @@ const karyaSchema = new mongoose.Schema({
     judul: String,
     detail: String,
     imageUrl: String,
-    tanggal: String
+    tanggal: String,
+    linkUrl: String
 }, {
     collection: 'Karya'
 })

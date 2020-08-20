@@ -7,7 +7,7 @@ mongoose.set('useCreateIndex', true)
 const dbName = process.env.DB_NAME
 const user = process.env.DB_USER
 const password = process.env.DB_PASSWORD
-const uri = 'mongodb://127.0.0.1:27017'
+const uri = `mongodb://127.0.0.1:27017/${dbName}`
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
 

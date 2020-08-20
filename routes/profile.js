@@ -1,12 +1,19 @@
 const express = require('express')
 const router = express.Router()
 const {
-    create,
-    getProfile
+    getAll,
+    getByUsername,
+    updateProfile
 } = require('../controllers/profileController')
 
+const {
+    addPengalaman
+} = require('../controllers/pengalamanController')
 
-router.post('/', create)
-router.get('/:pekerja', getProfile)
+
+router.get('/', getAll)
+router.put('/:username', updateProfile)
+router.get('/:username', getByUsername)
+router.post('/pengalaman/:username', addPengalaman)
 
 module.exports = router

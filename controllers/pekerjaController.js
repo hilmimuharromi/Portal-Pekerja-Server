@@ -1,37 +1,13 @@
 const Pekerja = require('../models/pekerja')
 const Profile = require('../models/profile')
 
-async function getAll(req, res, next) {
-    try {
-        const result = await Pekerja.find({})
-        res.status(200).json(result)
-    } catch (error) {
-        res.status(400).json('error bos')
-    }
-}
-
-async function getByUserName(req, res, next) {
-    try {
-        const {
-            username
-        } = req.params
-        const result = await Pekerja.findOne({
-            username
-        }).populate('profile').exec()
-        if (result) {
-            res.status(200).json(result)
-        }
-    } catch (error) {
-        res.status(400).json(error)
-    }
-}
-
 async function registerPekerja(req, res, next) {
     try {
         const {
             username,
             email,
-            password
+            password,
+            namaLengkap
         } = req.body
         const readyPekerja = await Pekerja.findOne({
             username
@@ -40,14 +16,22 @@ async function registerPekerja(req, res, next) {
         if (readyPekerja) {
             res.status(400).json('username is ready')
         } else {
-            const result = await Pekerja.create({
+
+            const profileId = await Profile.create({
+                username,
+                namaLengkap
+            })
+            console.log(profileId, 'hasil profile');
+
+            const data = new Pekerja({
                 username,
                 email,
-                password
+                password,
+                profile: profileId._id
             })
+            const result = await data.save()
             res.status(200).json(result)
         }
-
     } catch (error) {
         res.status(400).json(error)
     }
@@ -75,8 +59,6 @@ async function loginPekerja(req, res, next) {
 
 
 module.exports = {
-    getAll,
-    getByUserName,
     loginPekerja,
     registerPekerja
 }

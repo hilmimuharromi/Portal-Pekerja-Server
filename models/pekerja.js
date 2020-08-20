@@ -1,4 +1,7 @@
 const mongoose = require('mongoose')
+const {
+    ObjectId
+} = require('mongoose')
 mongoose.set('useCreateIndex', true)
 
 const pekerjaSchema = new mongoose.Schema({
@@ -18,8 +21,8 @@ const pekerjaSchema = new mongoose.Schema({
         required: [true, 'password is required']
     },
     profile: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Profile'
+        type: ObjectId,
+        ref: 'Profile',
     }
 }, {
     collection: 'Pekerja'

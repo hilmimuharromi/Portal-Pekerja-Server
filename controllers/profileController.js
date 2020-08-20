@@ -1,21 +1,47 @@
 const Profile = require('../models/profile')
+const Pengalaman = require('../models/pengalaman')
 const {
-    ObjectID,
     ObjectId
-} = require('mongodb')
+} = require('mongoose')
 
-async function create(req, res, next) {
+async function updateProfile(req, res, next) {
     try {
         let {
-            pekerja,
-            domisili
-        } = req.body
-        pekerja = ObjectId(pekerja)
+            username
+        } = req.params
 
-        const result = await Profile.create({
-            pekerja,
-            domisili
+        const oldProfile = await Profile.findOne({
+            username
         })
+
+        console.log(oldProfile, 'old profile')
+
+        if (oldProfile) {
+            let {
+                tempatLahir,
+                tanggalLahir,
+                domisili,
+                namaLengkap,
+            } = req.body
+            const result = await Profile.updateOne({
+                username,
+                namaLengkap,
+                tempatLahir,
+                tanggalLahir,
+                domisili,
+            })
+            if (result) {
+                res.status(201).json(result)
+            }
+        }
+    } catch (error) {
+        res.status(400).json(error)
+    }
+}
+
+async function getAll(req, res, next) {
+    try {
+        const result = await Profile.find()
         if (result) {
             res.status(201).json(result)
         }
@@ -24,22 +50,17 @@ async function create(req, res, next) {
     }
 }
 
-async function getProfile(req, res, next) {
-    try {
-        let {
-            pekerja
-        } = req.params
-        // pekerja = ObjectId(pekerja)
-        console.log(pekerja);
 
+async function getByUsername(req, res, next) {
+    try {
+        const {
+            username
+        } = req.params
         const result = await Profile.findOne({
-            pekerja
-        }).populate('pekerja').exec()
+            username
+        }).populate('pengalaman').exec()
         if (result) {
             res.status(200).json(result)
-        } else {
-            res.status(400).json(result)
-
         }
     } catch (error) {
         res.status(400).json(error)
@@ -48,6 +69,7 @@ async function getProfile(req, res, next) {
 
 
 module.exports = {
-    create,
-    getProfile
+    updateProfile,
+    getAll,
+    getByUsername
 }

@@ -1,10 +1,12 @@
 const mongoose = require('mongoose')
+const {
+    ObjectId
+} = require('mongoose')
 mongoose.set('useCreateIndex', true)
 
 const profileSchema = new mongoose.Schema({
-    pekerja: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Pekerja',
+    username: {
+        type: String,
         unique: true
     },
     namaLengkap: {
@@ -15,6 +17,9 @@ const profileSchema = new mongoose.Schema({
     },
     tanggalLahir: {
         type: String,
+    },
+    status: {
+        type: String
     },
     domisili: {
         type: String
@@ -27,11 +32,9 @@ const profileSchema = new mongoose.Schema({
         gelar: String
     }],
     pengalaman: [{
-        posisi: String,
-        namaPerusahaan: String,
-        detail: String,
-        tanggalMasuk: String,
-        tanggalkeluar: String
+        type: ObjectId,
+        ref: 'Pengalaman',
+        unique: true
     }],
     karya: [{
         judul: String,
